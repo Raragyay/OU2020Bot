@@ -1,7 +1,8 @@
 from typing import OrderedDict
 
 import discord
-from discord import Message, TextChannel
+from discord import Message, TextChannel, client, abc, Member
+from discord.abc import User
 from discord.ext.commands import Command, Cog, command, Bot, Context
 
 
@@ -41,6 +42,14 @@ class TestCog(Cog):
                                f"{getattr(command_to_restrict,k)}")
             command_to_restrict.__getattribute__("channel_restrictions").add(channel_name.name)
         print(command_to_restrict.__dir__())
+
+    @Cog.listener()
+    async def on_message(self, message: Message):
+        if message.author.bot:
+            return
+        elif message.content == "test input":
+            await message.channel.send("test input")
+
 
 
 def setup(bot: Bot):
