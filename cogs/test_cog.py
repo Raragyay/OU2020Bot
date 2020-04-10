@@ -33,12 +33,12 @@ class TestCog(Cog):
         await context.send(f"I am now going to restrict the command {command_to_restrict.name}...")
         k = "channel_restrictions"
         print(command_to_restrict.__dir__())
-        if not command_to_restrict.__getattribute__("channel_restrictions"):  # TODO move raw text out
+        if not hasattr(command_to_restrict,"channel_restrictions"):  # TODO move raw text out
             await context.send(f"Channel restrictions were not found for this channel. Creating new restrictions.")
             command_to_restrict.__setattr__("channel_restrictions", {channel_name.name})
         else:
             await context.send(f"Channel restrictions were found. Here are the previous restrictions: "
-                               f"{command_to_restrict.clean_params[k]}")
+                               f"{getattr(command_to_restrict,k)}")
             command_to_restrict.__getattribute__("channel_restrictions").add(channel_name.name)
         print(command_to_restrict.__dir__())
 
