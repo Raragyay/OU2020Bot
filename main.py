@@ -3,7 +3,6 @@ from typing import List, Type
 from discord.ext import commands
 from discord.ext.commands import Bot, command, Context, Cog
 
-from client import OU2020Bot
 from cogs.test_cog import TestCog
 
 
