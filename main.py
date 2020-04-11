@@ -17,7 +17,7 @@ def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
         bot.load_extension(cog_extension)
 
 
-command_prefix = "%"
+command_prefix = "$"
 cogs = [TestCog, CommandRestrictionsCog, ErrorCog]
 
 client = Bot(command_prefix=command_prefix)
