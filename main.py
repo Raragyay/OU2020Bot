@@ -5,6 +5,7 @@ from discord.ext.commands import Bot, Cog
 from cogs.command_restrictions_cog import CommandRestrictionsCog
 from cogs.error_cog import ErrorCog
 from cogs.test_cog import TestCog
+from cogs.ama_cog import AmaCog
 
 
 def retrieve_token():
@@ -18,7 +19,7 @@ def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
 
 
 command_prefix = "$"
-cogs = [TestCog, CommandRestrictionsCog, ErrorCog]
+cogs = [TestCog, CommandRestrictionsCog, ErrorCog, AmaCog]
 
 client = Bot(command_prefix=command_prefix)
 load_cogs(client, cogs)
