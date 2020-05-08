@@ -8,10 +8,10 @@ from discord.ext.commands import Command, Cog, command, Bot, Context
 
 class TestCog(Cog):
 
-    def __init__(self, bot: Bot, question_storage: List):
-        self.question_storage = []
+    def __init__(self, bot: Bot):
         self.a = 3
         self.bot = bot
+        self.question_storage = []
 
     @command(name='test')
     async def test(self, context: Context):
@@ -29,16 +29,8 @@ class TestCog(Cog):
     async def on_message(self, message: Message):
         if message.author.bot:
             return
-        elif message.channel.id == 698288183821074563:
-            await self.question_storage.append([message.author.display_name, message.content])
         elif message.content == "amrit op" or message.content == "Amrit op":
             await message.channel.send("Amrit Bad")
-
-    @command(name="nextquestion")
-    async def next_question(self, context: Context):
-        await context.send("User '"+self.question_storage[0][0]+"' asks:")
-        await context.send(">>> "+self.question_storage[0][1])
-        await self.question_storage.remove(self.question_storage[0])
 
     @Cog.listener()
     async def on_message_delete(self, message: Message):
