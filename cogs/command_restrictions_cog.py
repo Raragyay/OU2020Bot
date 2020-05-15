@@ -1,5 +1,6 @@
 import discord
 from discord import Guild, TextChannel
+from discord.ext import commands
 from discord.ext.commands import Cog, Bot, Context, command, Command
 
 
@@ -15,6 +16,7 @@ class CommandRestrictionsCog(Cog):
         pass
 
     @command(name="restrict")
+    @commands.has_role("Moderator")
     async def restrict_command(self, context: Context, command_name: str, channel_to_restrict: TextChannel):
         command_to_restrict: Command = discord.utils.find(lambda cmd: cmd.name == command_name, self.bot.commands)
         if not command_to_restrict:
@@ -26,10 +28,8 @@ class CommandRestrictionsCog(Cog):
             command_to_restrict.__setattr__(self.COMMAND_RESTRICTION_NAME, {channel_to_restrict})
             command_to_restrict.add_check(self.verify_channel_restrictions)
         else:
-            print(f"Adding new channel {channel_to_restrict.name} to attr")
+            print(f"Adding channel {channel_to_restrict.name} to attr")
             command_to_restrict.__getattribute__(self.COMMAND_RESTRICTION_NAME).add(channel_to_restrict)
-        print(context.guild.text_channels)
-        print(channel_to_restrict)
 
     @staticmethod
     def verify_channel_restrictions(context: Context):

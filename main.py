@@ -8,7 +8,7 @@ from cogs.test_cog import TestCog
 
 
 def retrieve_token():
-    return open("token.txt", "r").read().strip()
+    return open("cs25token.txt", "r").read().strip()
 
 
 def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
