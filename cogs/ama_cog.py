@@ -10,17 +10,10 @@ class AmaCog(Cog):
         self.question_storage = {}
         self.ready_for_next_question = {}
 
-    def encode_textchannel(z):
-        if isinstance(z, complex):
-            return (z.real, z.imag)
-        else:
-            type_name = z.__class__.__name__
-            raise TypeError(f"Object of type '{type_name}' is not JSON serializable")
-
-    def save_questions(self):
-        json_text = json.dumps(self.question_storage)
-        with open('data.txt', 'w') as write_to_file:
-            json.dump(json_text, write_to_file)
+    #def save_questions(self):
+        #json_text = json.dumps(self.question_storage)
+        #with open('data.txt', 'w') as write_to_file:
+            #json.dump(json_text, write_to_file)
 
     @commands.has_any_role("Admin", "Moderator")
     @command(name="qachannel")
@@ -40,7 +33,7 @@ class AmaCog(Cog):
             # 'ready_For_next_question' is a dictionary where each key is a Q&A channel, and each linked value indicates
             # whether or not an answerer is waiting for another question to be sent. Creating a Q&A channel adds
             # another element.
-            self.save_questions()
+            #self.save_questions()
 
     @Cog.listener()
     async def on_message(self, message: Message):
@@ -53,7 +46,7 @@ class AmaCog(Cog):
             # and added to the channel's queue.
             if self.ready_for_next_question[message.channel]:
                 current_message = self.question_storage[message.channel].popleft()
-                self.save_questions()
+                #self.save_questions()
                 self.ready_for_next_question[message.channel] = False
                 await message.channel.send(
                     "User " + current_message.author.mention + " asks:\n" + ">>> " + current_message.content)
@@ -70,7 +63,7 @@ class AmaCog(Cog):
                 self.ready_for_next_question[context.channel] = True
             else:
                 current_message = self.question_storage[context.channel].popleft()
-                self.save_questions()
+                #self.save_questions()
                 await context.send(
                     "User " + current_message.author.mention + " asks:\n" + ">>> " + current_message.content)
                 # If the question queue for the relevant channel is not empty, the bot sends the oldest message and
