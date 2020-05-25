@@ -1,13 +1,9 @@
 import random
-from typing import OrderedDict
-from typing import OrderedDict, List
 
-import discord
-from discord import Message, Role, TextChannel, utils
-from discord.ext import commands
-from discord.ext.commands import Command, Cog, command, Bot, Context, check
-from discord import Message, TextChannel, client, abc, Member, Reaction
+from discord import Message, Reaction
+from discord import Role
 from discord.abc import User
+from discord.ext import commands
 from discord.ext.commands import Command, Cog, command, Bot, Context
 
 
