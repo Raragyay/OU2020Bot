@@ -1,4 +1,5 @@
-from discord.ext.commands import Cog, Bot, Context, CommandError, MissingRequiredArgument, Command, BadArgument
+from discord.ext.commands import Cog, Bot, Context, CommandError, MissingRequiredArgument, Command, BadArgument, \
+    CommandNotFound
 
 
 class ErrorCog(Cog):
@@ -11,6 +12,8 @@ class ErrorCog(Cog):
             return await self.process_missing_required_argument(context)
         elif isinstance(error, BadArgument):
             return await self.process_bad_argument(context, error)
+        elif isinstance(error, CommandNotFound):
+            return await(self.process_command_not_found(context, error))
         print(type(error))
         print(error.args)
         print(error)
@@ -22,6 +25,11 @@ class ErrorCog(Cog):
     @staticmethod
     async def process_bad_argument(context, error):
         await context.send(str(error).replace("\"", "`"))
+
+    @staticmethod
+    async def process_command_not_found(context, error):
+        error_message = str(error).replace('\"', "`")
+        await context.send(f"{error_message}.")
 
 
 def setup(bot: Bot):
