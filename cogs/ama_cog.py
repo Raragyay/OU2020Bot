@@ -1,5 +1,6 @@
 import json
 from collections import deque
+from json import JSONDecodeError
 
 from discord import Message, TextChannel, Role, utils
 from discord.ext import commands
@@ -9,8 +10,12 @@ from discord.ext.commands import Cog, command, Context, Bot, Command
 class AmaCog(Cog):
     def __init__(self):
         with open("saved_questions.json", "r") as read_file:
-            self.question_data = json.load(read_file)
-            print(self.question_data)
+            try:
+                self.question_data = json.load(read_file)
+                print(self.question_data)
+            except JSONDecodeError:
+                print('Could not decode json file.')
+                self.question_data = {}
         for each_channel in self.question_data:
             self.question_data[each_channel]["queue"] = deque(self.question_data[each_channel]["queue"])
 
@@ -38,7 +43,10 @@ class AmaCog(Cog):
                 "This channel is already a Q&A channel. To remove a Q&A channel, use the ``qaremove`` command.")
         else:
             await context.send("Channel ``" + str(channel) + "`` is now in Q&A format.")
-            self.question_data[channel.id] = {"queue": deque(), "is_ready": False, "answer_role": role}
+            self.question_data[channel.id] = {
+                "queue"      : deque(),
+                "is_ready"   : False,
+                "answer_role": role}
             # 'question_data' is a dictionary where each key is the id of a Q&A channel, and each linked value is
             # another dictionary storing the corresponding question queue, answer role, and a boolean indicating whether
             # the answerer is waiting for the next question.
@@ -52,7 +60,10 @@ class AmaCog(Cog):
             return
         elif (channel in self.question_data) and (
                 utils.get(message.author.roles, name=self.question_data[channel]["answer_role"])) == None:
-            self.question_data[channel]["queue"].append({"content": message.content, "author": message.author.mention})
+            self.question_data[channel]["queue"].append({
+                "content": message.content,
+                "author" : message.author.mention})
+            print(self.question_data)
             await message.delete()
             # If a user who is not a designated answerer or a bot types in a Q&A channel, their message will be removed
             # and added to the channel's queue. The queue also stores the string to mention the author of the message.
@@ -68,7 +79,8 @@ class AmaCog(Cog):
     @command(name="nextquestion")
     async def next_question(self, context: Context):
         channel = context.channel.id
-        if channel in self.question_data and (utils.get(context.author.roles, name=self.question_data[channel]["answer_role"])) != None:
+        if channel in self.question_data and (
+                utils.get(context.author.roles, name=self.question_data[channel]["answer_role"])) != None:
             # This command only runs if being used by a designated answerer in a Q&A channel.
             await context.message.delete()
             if not self.question_data[channel]["queue"]:
