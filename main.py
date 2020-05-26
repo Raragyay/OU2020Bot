@@ -23,7 +23,7 @@ def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
 
 
 command_prefix = retrieve_command_prefix()
-cogs = [TestCog, CommandRestrictionsCog, ErrorCog, AmaCog]
+cogs = [TestCog, CommandRestrictionsCog, ErrorCog]
 
 client = Bot(command_prefix=command_prefix)
 load_cogs(client, cogs)
