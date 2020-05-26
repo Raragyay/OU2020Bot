@@ -9,7 +9,7 @@ from cogs.ama_cog import AmaCog
 
 
 def retrieve_token():
-    return open("cs25token.txt", "r").read().strip()
+    return open("token.txt", "r").read().strip()
 
 
 def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
@@ -18,7 +18,7 @@ def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
         bot.load_extension(cog_extension)
 
 
-command_prefix = "%"
+command_prefix = "$"
 cogs = [TestCog, CommandRestrictionsCog, ErrorCog, AmaCog]
 
 client = Bot(command_prefix=command_prefix)
