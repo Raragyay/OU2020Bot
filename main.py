@@ -12,13 +12,17 @@ def retrieve_token():
     return open("token.txt", "r").read().strip()
 
 
+def retrieve_command_prefix():
+    return open('command_prefix.txt', 'r').read().strip()
+
+
 def load_cogs(bot: Bot, cogs_to_add: List[Type[Cog]]):
     for cog in cogs_to_add:
         cog_extension: str = cog.__module__
         bot.load_extension(cog_extension)
 
 
-command_prefix = "$"
+command_prefix = retrieve_command_prefix()
 cogs = [TestCog, CommandRestrictionsCog, ErrorCog, AmaCog]
 
 client = Bot(command_prefix=command_prefix)
