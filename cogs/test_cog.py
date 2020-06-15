@@ -12,6 +12,7 @@ class TestCog(Cog):
     def __init__(self, bot: Bot):
         self.a = 3
         self.bot = bot
+        self.question_storage = []
 
     @command(name='test')
     @commands.has_role("Moderator")
@@ -53,10 +54,29 @@ class TestCog(Cog):
         #                    f'{"person" if num_of_people == 1 else "people"} with the '
         #                    f'role {role}.')
 
-
-
-
-
+    # @Cog.listener()
+    # async def on_message(self, message: Message):
+    #     if message.author.bot:
+    #         return
+    #     elif message.content == "amrit op" or message.content == "Amrit op":
+    #         await message.channel.send("Amrit Bad")
+    #
+    # @Cog.listener()
+    # async def on_message_delete(self, message: Message):
+    #     if message.author.id == 549076734880776193:
+    #         await message.channel.send("No more deleting letmein :rage:")
+    #         await message.channel.send(">>> "+message.content)
+    #
+    # @Cog.listener()
+    # async def on_message_edit(self, before: Message, after: Message):
+    #     if before.author.id == 549076734880776193:
+    #         await before.channel.send("No more editing either :flushed:")
+    #         await before.channel.send(">>> "+before.content)
+    #
+    # @Cog.listener()
+    # async def on_reaction_add(self, reaction: Reaction, user: User):
+    #     if user.id == 644959900132442136:
+    #         await reaction.message.channel.send("Stop reacting to everything Shawn this isnt instagram")
 
 
 def setup(bot: Bot):
